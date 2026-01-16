@@ -1,9 +1,9 @@
 * {
 	margin: 0;
 	padding: 0;
-	--margin: 10px;
-	--border-radius: 15px;
-	--line-spacing: 1em;
+	--margin: 20px;
+	--border-radius: 0.5em;
+	--line-spacing: 1.2em;
 }
 
 body {
@@ -21,6 +21,10 @@ html {
 	overflow-wrap: break-word;
 }
 
+/* =========================
+   STATUS
+========================= */
+
 #status-container {
 	font-family: "consolas";
 	font-weight: 500;
@@ -36,91 +40,160 @@ html {
 	transform: translate(-50%, -50%);
 }
 
+/* =========================
+   MAIN
+========================= */
+
+.bubble {
+    background: rgba(20, 20, 20, 0);
+    padding: 0.5em 0.75em;
+    border-radius: 0.5em;
+}
+
 #mainContainer {
 	position: absolute;
 	height: calc(100% - 2 * var(--margin));
 	width: calc(100% - 2 * var(--margin));
 	margin: var(--margin);
+	
 }
 
 #rewardContenedor {
 	padding: 10px;
 }
 
-#mensajeContenedor{
+#mensajeContenedor {
 	padding: 10px;
 }
 
-#listaMensajes {
+/* =========================
+   MESSAGE LAYOUT (NUTTY STYLE)
+========================= */
+
+.mensaje-contenido {
 	display: flex;
-	flex-direction: column-reverse;
-	justify-content: flex-start;
+	flex-direction: row;
+	gap: 0.5em;
+	align-items: flex-start;
+}
+
+.texto-mensaje {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
+/* =========================
+   MESSAGE LIST
+========================= */
+
+#listaMensajes {
 	position: absolute;
 	left: 0;
 	width: 100%;
+}
+
+.scrollNormal {
 	bottom: 0;
 }
 
 li {
-	list-style: none;
-	overflow: hidden;
-	height: 0;
+    list-style: none;
+    max-height: 0;
+	margin: 10px 0px 0px 0px;
 	transition: all 1s ease-in-out;
 }
 
-.slideIn li {
-	transition: all 0.5s ease-out;
-	/* opacity: 0; */
+.slide-fade li {
+	transition: all var(--animation-speed) ease-out;
 }
 
-.slideIn li.show {
-	/* opacity: 1; */
+.slide-fade li.show {
+
 }
 
-#esteDivEsParaQuePuedaCalcularQueTanGrandePuedeSerCadaMensajeAntesDeQueSeaAgregadoAlaListaxd {
+/* =========================
+   HEIGHT MEASURER
+========================= */
+
+#calcularAltura {
 	opacity: 0;
 }
+
+/* =========================
+   STATES
+========================= */
 
 #primerMensaje,
 #chatCompartido {
 	display: none;
 	font-weight: 500;
-	font-size: 1.1em;
+	font-size: 0.7em;
 }
 
+/* =========================
+   HIGHLIGHT
+========================= */
+
 @keyframes colorBucle {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
 }
 
 .rotar-color {
-  background: linear-gradient(270deg, #833ab4, #fd1d1d, #fcb045, #833ab4);
-  background-size: 600% 600%;
-  animation: colorBucle 6s ease infinite;
+	background: linear-gradient(270deg, #833ab4, #fd1d1d, #fcb045, #833ab4);
+	background-size: 600% 600%;
+	animation: colorBucle 6s ease infinite;
 }
 
-#user-info{
-	margin-bottom: 5px;
+/* =========================
+   AVATAR
+========================= */
+
+#avatar {
+	width: 1.2em;
+	min-width: 1.2em;
 }
 
 .avatar {
-	height: 2em;
-	margin: 1px;
-	transform: translate(0px, 0.25em);
+	width: 1.5em;
+	height: 1.5em;
 	border-radius: 50%;
+	object-fit: cover;
+	display: block;
 }
+
+#avatar:empty {
+	display: none;
+}
+
+/* =========================
+   USER INFO
+========================= */
+
+#user-info {
+	font-size: 1em;
+	margin-bottom: 0.15em;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#mensaje {
+	font-weight: 400;
+	line-height: var(--line-spacing);
+}
+
+/* =========================
+   INLINE UI
+========================= */
 
 .timestamp {
 	background: #adadad46;
 	border-radius: 1em;
-	font-size: 1em;
+	font-size: 0.7em;
 	padding: 0.15em 0.5em;
 }
 
@@ -134,23 +207,23 @@ li {
 .badge {
 	height: 1.2em;
 	margin: 1px;
-	transform: translate(0px, 0.25em);
+	transform: translate(0, 0.25em);
 }
 
 .emote {
 	height: 1.5em;
 	margin: 1px;
-	transform: translate(0px, 0.4em);
+	transform: translate(0, 0.4em);
 }
-
 
 .productImage {
 	height: 15em;
 	border-radius: 0.25em;
-	transform: translate(0px, 0.25em);
 }
 
-
+/* =========================
+   TEXT
+========================= */
 
 #badgeList {
 	margin: 0 5px;
@@ -165,29 +238,30 @@ li {
 	font-weight: 700;
 }
 
+/* =========================
+   REPLIES
+========================= */
+
 #respuesta {
 	display: none;
 	overflow: hidden;
-	white-space: nowrap;
+	white-space: normal;
 	text-overflow: ellipsis;
-	font-size: 1.1em;
-	opacity: 0.7;
-	margin-bottom: 4px;
+	font-size: 0.7em;
+	opacity: 0.5;                                                                               
 }
 
-#mensaje {
-	font-weight: 400;
-	line-height: 1em;
+/* =========================
+   REWARDS
+========================= */
 
-}
-
-#channel_point{
+#channel_point {
 	width: 20px;
 }
 
-#bodyReward{
+#rewardContenedor {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+	border-radius: var(--border-radius);
 }
-
