@@ -152,7 +152,7 @@ li {
 	background: linear-gradient(270deg, #772CE8, #A47DE1);
 	background-size: 600% 600%;
 	animation: colorBucle 6s ease infinite;
-	box-shadow: 2px 2px 6px #000;
+	
 }
 
 /* =========================
@@ -277,4 +277,5 @@ li {
 	flex-direction: row;
 	align-items: center;
 	border-radius: var(--border-radius);
+	box-shadow: 2px 2px 6px #000;
 }
