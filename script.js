@@ -364,10 +364,13 @@ async function CheerChat(data){
 	const instancia = plantilla.content.cloneNode(true);
 
     const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	
     mensajeContenedorDiv.style.position = "relative";
 	mensajeContenedorDiv.style.height = "100%";
-	mensajeContenedorDiv.style.background = "linear-gradient(90deg,rgba(175, 133, 237, 0.95) 0%, rgba(129, 80, 204, 1) 50%, rgba(119, 44, 232, 1) 100%)";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	//mensajeContenedorDiv.style.background = "linear-gradient(90deg,rgba(175, 133, 237, 0.95) 0%, rgba(129, 80, 204, 1) 50%, rgba(119, 44, 232, 1) 100%)";
 	mensajeContenedorDiv.style.marginBottom = "5px"; // ← Separación entre rewards
+	
     
     const avatarDiv = instancia.querySelector("#avatar");
     avatarDiv.classList.add("borde-avatar");
