@@ -29,6 +29,7 @@ const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
 const destacado         = obtenerBooleanos("mostrarDestacado", false);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
 const showRaidMessage   = obtenerBooleanos("mostrarRaids", false);
+const showFollow = obtenerBooleanos("mostrarFollow", false);
 
 // Emotes / comandos
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
@@ -301,6 +302,7 @@ async function MensajeChat(data) {
 }
 
 async function RecompensaChat(data) {
+	if(!showRedeemMessages) return;
 	console.log(data);
 	const costo = data.reward.cost;
 	const titulo = data.reward.title;
@@ -340,6 +342,7 @@ async function RecompensaChat(data) {
 }
 
 async function CheerChat(data){
+	if(!showCheerMessages) return;
     console.log(data);
     const bits = data.bits;
     const usuario = data.user.name;
@@ -380,6 +383,7 @@ async function CheerChat(data){
 }
 
 async function TwitchFollow(data) {
+	if(!showFollow) return;
 	console.debug(data);
 	const usuario = data.user_name;
 	const uid = data.user_id;
