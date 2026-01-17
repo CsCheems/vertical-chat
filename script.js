@@ -96,9 +96,9 @@ client.on('Twitch.ChatCleared', (response) => {
 	LimpiarChat(response.data);
 })
 
-// client.on('Twitch.Cheer', (response) => {
-//     CheerChat(response.data);
-// })
+client.on('Twitch.Cheer', (response) => {
+    CheerChat(response.data);
+})
 
 client.on('Twitch.UserBanned', (response) => {
     UsuarioBaneado(response.data);
@@ -333,48 +333,7 @@ async function RecompensaChat(data) {
 	usuarioDiv.innerHTML = `${usuario} ha canjeado ${titulo} <img id="channel_point" src="./icon/channel-point.png"/> ${costo}`;
 
 	agregarMensaje(instancia, rewardId, uid);
-	// Medir altura en tempDiv
-	// const tempDiv = document.getElementById("calcularAltura");
-	// tempDiv.appendChild(instancia);
-	// const alturaMensaje = tempDiv.clientHeight + "px";
-
-	// // Crear contenedor <li>
-	// const siguienteMensaje = document.createElement("li");
-	// siguienteMensaje.id = rewardId;
-	// siguienteMensaje.dataset.uid = uid;
-    // siguienteMensaje.style.marginTop = "5px";
-
-	// // Mover contenido de tempDiv al li
-	// while (tempDiv.firstChild) {
-	// 	siguienteMensaje.appendChild(tempDiv.firstChild);
-	// }
-
-	// // Insertar al inicio de la lista (respetando column-reverse)
-	// listaMensajes.insertBefore(siguienteMensaje, listaMensajes.firstChild);
-
-	// // Mostrar con animación
-	// setTimeout(() => {
-	// 	siguienteMensaje.className += " show";
-	// 	siguienteMensaje.style.height = alturaMensaje;
-	// }, 10);
-
-	// // Limitar mensajes visibles
-	// while (listaMensajes.children.length > maxMessages) {
-	// 	listaMensajes.removeChild(listaMensajes.lastChild);
-	// }
-
-	// // Limpiar tempDiv
-	// tempDiv.innerHTML = '';
-
-	// // Ocultar después de cierto tiempo
-	// if (ocultarDespuesDe > 0) {
-	// 	setTimeout(() => {
-	// 		siguienteMensaje.style.opacity = 0;
-	// 		setTimeout(() => {
-	// 			listaMensajes.removeChild(siguienteMensaje);
-	// 		}, 1000);
-	// 	}, ocultarDespuesDe * 1000);
-	// }
+	
 }
 
 
@@ -389,111 +348,59 @@ function LimpiarChat(data) {
 }
 
 
-// async function CheerChat(data){
-//     console.log(data);
-//     const bits = data.bits;
-//     const usuario = data.user.name;
-//     const uid = data.user.userId;
-//     const msgId = data.message.msgId;
-//     const mensaje = data.text;
-//     const emotes = data.emotes;
+async function CheerChat(data){
+    console.log(data);
+    const bits = data.bits;
+    const usuario = data.user.name;
+    const uid = data.user.userId;
+    const msgId = data.message.msgId;
+    const mensaje = data.text;
+    const emotes = data.emotes;
 
-//     if(data.message.message.startsWith("!"))
-//         return;
+    if(data.message.message.startsWith("!"))
+        return;
 
-//     const plantilla = document.getElementById("plantillaMensaje");
-//     const instancia = plantilla.content.cloneNode(true);
+    const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
 
-//     const mensajeContenedor = instancia.querySelector("#mensajeContenedor");
-//     mensajeContenedor.style.position = "relative";
-//     mensajeContenedor.style.height = "100%";
-//     mensajeContenedor.style.background = "#22242A";
+    const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+    mensajeContenedorDiv.style.position = "relative";
+    mensajeContenedorDiv.style.height = "100%";
+    mensajeContenedorDiv.style.background = "#772CE8";
     
-//     const avatarContainer = instancia.querySelector("#avatarContainer");
-//     avatarContainer.classList.add("borde-avatar");
-//     avatarContainer.classList.add("border-gradient-gold");
+    const avatarDiv = instancia.querySelector("#avatar");
+    avatarDiv.classList.add("borde-avatar");
+    avatarDiv.classList.add("border-gradient-gold");
 
-//     const avatarImg = instancia.querySelector("#avatar");
+    const avatarImg = instancia.querySelector("#avatar");
 
-//     const bodyContainer = instancia.querySelector("#bodyContainer");
+    const usuarioDiv = instancia.querySelector("#reward");
 
-//     const avatarURL = await obtenerAvatar(usuario);
-//     avatarImg.src = avatarURL;
+    const avatarURL = await obtenerAvatar(usuario);
+    avatarImg.src = avatarURL;
 
-//     const usernameDiv = document.createElement("div");
-//     usernameDiv.className = "usuario";
-//     usernameDiv.innerHTML = `${usuario} ha donado ${bits} <img src="${data.parts[0].imageUrl}"/>`;
+	
+    usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `${usuario} ha donado ${bits} <img id="cheers" src="${data.parts[0].imageUrl}"/>`;
 
-//     bodyContainer.appendChild(usernameDiv);
-
-//     const tempDiv = document.getElementById("calcularAltura");
-//     tempDiv.appendChild(instancia);
-
-//     const alturaMensaje = tempDiv.clientHeight + "px";
-//     var siguienteMensaje = document.createElement("li");
-//     siguienteMensaje.id = msgId;
-//     siguienteMensaje.dataset.uid = uid;
-    
-//     while(tempDiv.firstChild){
-//         siguienteMensaje.appendChild(tempDiv.firstChild);
-//     }
-
-//     listaMensajes.appendChild(siguienteMensaje);
-//     setTimeout(function () {
-//         siguienteMensaje.className = siguienteMensaje.className + " show";
-//         siguienteMensaje.style.height = alturaMensaje;
-//     }, 10);
-
-//     while (listaMensajes.children.length > maxMessages) {
-//         listaMensajes.removeChild(listaMensajes.firstChild);
-//     }
-
-//     tempDiv.innerHTML = '';
-
-//     if(ocultarDespuesDe && ocultarDespuesDe > 0){
-//         {
-//             setTimeout(function () {
-//                 siguienteMensaje.style.opacity = 0;
-//                 setTimeout(function() {
-//                     listaMensajes.removeChild(siguienteMensaje);
-//                 }, 1000);
-//             }, ocultarDespuesDe * 1000);
-//         }
-//     }
-// }
+    agregarMensaje(instancia, msgId, uid);
+}
 
 function UsuarioBaneado(data) {
     console.log(data);
 	listaMensajes = document.getElementById("listaMensajes");
 	const messagesToRemove = [];
-	const userId = data.user_id;
+
+	const userId = data.targetUser.id;
+
 	for (let i = 0; i < listaMensajes.children.length; i++) {
-		if (listaMensajes.children[i].dataset.uid === userId) {
+		if (listaMensajes.children[i].dataset.userId === userId) {
 			messagesToRemove.push(listaMensajes.children[i]);
 		}
 	}
+
 	messagesToRemove.forEach(item => {
 		listaMensajes.removeChild(item);
-	});
-}
-
-function MensajeEliminado(data) {
-	listaMensajes = document.getElementById("messageList");
-	const messagesToRemove = [];
-	const messageId = data.messageId;
-	for (let i = 0; i < listaMensajes.children.length; i++) {
-		if (listaMensajes.children[i].id === messageId) {
-			messagesToRemove.push(listaMensajes.children[i]);
-		}
-	}
-
-	// Remove the items
-	messagesToRemove.forEach(item => {
-		item.style.opacity = 0;
-		item.style.height = 0;
-		setTimeout(function() {
-			listaMensajes.removeChild(item);
-		}, 1000);
 	});
 }
 

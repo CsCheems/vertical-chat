@@ -259,6 +259,11 @@ li {
 	width: 20px;
 }
 
+#cheers{
+	width: 1em;
+	transform: translateY(5px);
+}
+
 #rewardContenedor {
 	display: flex;
 	flex-direction: row;
