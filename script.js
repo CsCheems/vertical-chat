@@ -91,13 +91,20 @@ client.on('Twitch.ChatMessage', (response) => {
     MensajeChat(response.data);
 })
 
-
-client.on('Twitch.ChatCleared', (response) => {
-	LimpiarChat(response.data);
+client.on('Twitch.RewardRedemption', (response) => {
+    RecompensaChat(response.data);
 })
 
 client.on('Twitch.Cheer', (response) => {
     CheerChat(response.data);
+})
+
+client.on('Twitch.Follow', (response) => {
+	TwitchFollow(response.data);
+})
+
+client.on('Twitch.ChatCleared', (response) => {
+	LimpiarChat(response.data);
 })
 
 client.on('Twitch.UserBanned', (response) => {
@@ -106,10 +113,6 @@ client.on('Twitch.UserBanned', (response) => {
 
 client.on('Twitch.UserTimedOut', (response) => {
     UsuarioBaneado(response.data);
-})
-
-client.on('Twitch.RewardRedemption', (response) => {
-    RecompensaChat(response.data);
 })
 
 //YOUTUBE
@@ -336,18 +339,6 @@ async function RecompensaChat(data) {
 	
 }
 
-
-
-function LimpiarChat(data) {
-    console.log(data);
-	listaMensajes = document.getElementById("listaMensajes");
-
-	while (listaMensajes.firstChild) {
-		listaMensajes.removeChild(listaMensajes.firstChild);
-	}
-}
-
-
 async function CheerChat(data){
     console.log(data);
     const bits = data.bits;
@@ -364,31 +355,45 @@ async function CheerChat(data){
 	const instancia = plantilla.content.cloneNode(true);
 
     const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
 	
     mensajeContenedorDiv.style.position = "relative";
 	mensajeContenedorDiv.style.height = "100%";
 	mensajeContenedorDiv.classList.add("rotar-color-cheers");
 	//mensajeContenedorDiv.style.background = "linear-gradient(90deg,rgba(175, 133, 237, 0.95) 0%, rgba(129, 80, 204, 1) 50%, rgba(119, 44, 232, 1) 100%)";
 	mensajeContenedorDiv.style.marginBottom = "5px"; // ← Separación entre rewards
-	
-    
-    const avatarDiv = instancia.querySelector("#avatar");
-    avatarDiv.classList.add("borde-avatar");
-    avatarDiv.classList.add("border-gradient-gold");
 
-    const avatarImg = instancia.querySelector("#avatar");
 
-    const usuarioDiv = instancia.querySelector("#reward");
-
-    const avatarURL = await obtenerAvatar(usuario);
-    avatarImg.src = avatarURL;
-
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(usuario);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
 	
     usuarioDiv.className = "usuario";
     usuarioDiv.innerHTML = `${usuario} ha donado ${bits} <img id="cheers" src="${data.parts[0].imageUrl}"/>`;
 
     agregarMensaje(instancia, msgId, uid);
 }
+
+async function TwitchFollow(data) {
+	console.debug(data);
+}
+
+function LimpiarChat(data) {
+    console.log(data);
+	listaMensajes = document.getElementById("listaMensajes");
+
+	while (listaMensajes.firstChild) {
+		listaMensajes.removeChild(listaMensajes.firstChild);
+	}
+}
+
+
+
 
 function UsuarioBaneado(data) {
     console.log(data);
