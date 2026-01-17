@@ -584,70 +584,15 @@ function agregarMensaje(instancia, msgId, uid) {
 
 		if (ocultarDespuesDe > 0) {
 			setTimeout(() => {
-			li.style.opacity = 0;
-			setTimeout(() => {
-				if (li.parentNode) li.parentNode.removeChild(li);
-			}, 1000);
+				listItem.style.opacity = 0;
+				setTimeout(() => {
+					if (listItem.parentNode) listItem.parentNode.removeChild(listItem);
+				}, 1000);
 			}, ocultarDespuesDe * 1000);
 		}
 
 	}, 200);
 
-	// const lista = document.getElementById("listaMensajes");
-
-	// // 1) Medir en el contenedor oculto
-	// const wrapper = document.createElement("div");
-	// wrapper.appendChild(instancia);
-	// tempDiv.appendChild(wrapper);
-
-	// // Forzamos al browser a calcular layout del wrapper
-	// const altura = wrapper.offsetHeight + "px";
-
-	// // 2) Creamos el LI (todavía colapsado)
-	// const li = document.createElement("li");
-	// li.id = msgId;
-	// li.dataset.userId = uid;
-
-	// // Movemos el contenido real al LI
-	// li.appendChild(wrapper.firstElementChild);
-
-	// // Limpiamos el medidor
-	// tempDiv.innerHTML = "";
-
-	// // Estado inicial (colapsado)
-	// li.style.maxHeight = "0px";
-
-	// // 3) Insertar al final (como ya lo tienes anclado abajo con bottom:0)
-	// lista.appendChild(li);
-
-	// // 4) Forzar reflow para que el "0px" quede aplicado antes de animar
-	// li.getBoundingClientRect();
-
-	// // 5) Siguiente frame: expandir + mostrar
-	// requestAnimationFrame(() => {
-	// 	li.classList.add("show");
-	// 	li.style.maxHeight = altura;
-
-	// 	// 6) Soltar el límite para que NO se corte texto/imágenes
-	// 	setTimeout(() => {
-	// 	li.style.maxHeight = "none";
-	// 	}, 650);
-	// });
-
-	// // 7) Limpieza de mensajes viejos (igual que antes)
-	// while (lista.clientHeight > 5 * window.innerHeight) {
-	// 	lista.removeChild(lista.firstChild);
-	// }
-
-	// // 8) Auto-ocultar (igual que antes)
-	// if (ocultarDespuesDe > 0) {
-	// 	setTimeout(() => {
-	// 	li.style.opacity = 0;
-	// 	setTimeout(() => {
-	// 		if (li.parentNode) li.parentNode.removeChild(li);
-	// 	}, 1000);
-	// 	}, ocultarDespuesDe * 1000);
-	// }
 }
 
 function truncarTexto(texto, max) {
