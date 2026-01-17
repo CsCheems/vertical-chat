@@ -381,6 +381,35 @@ async function CheerChat(data){
 
 async function TwitchFollow(data) {
 	console.debug(data);
+	const usuario = data.user_name;
+	const uid = data.user_id;
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+    const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
+
+	 mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	//mensajeContenedorDiv.style.background = "linear-gradient(90deg,rgba(175, 133, 237, 0.95) 0%, rgba(129, 80, 204, 1) 50%, rgba(119, 44, 232, 1) 100%)";
+	mensajeContenedorDiv.style.marginBottom = "5px"; // ← Separación entre rewards
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(usuario);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+
+	usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `${usuario} ha comenzado a seguir el canal/>`;
+
+	agregarMensaje(instancia, null, uid);
 }
 
 function LimpiarChat(data) {
@@ -391,9 +420,6 @@ function LimpiarChat(data) {
 		listaMensajes.removeChild(listaMensajes.firstChild);
 	}
 }
-
-
-
 
 function UsuarioBaneado(data) {
     console.log(data);
