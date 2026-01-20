@@ -30,6 +30,7 @@ const destacado         = obtenerBooleanos("mostrarDestacado", false);
 const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
 const showRaidMessage   = obtenerBooleanos("mostrarRaids", false);
 const showFollow = obtenerBooleanos("mostrarFollow", false);
+const mostrarRacha = obtenerBooleanos("mostrarRacha", false);
 
 // Emotes / comandos
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
@@ -115,6 +116,11 @@ client.on('Twitch.UserBanned', (response) => {
 client.on('Twitch.UserTimedOut', (response) => {
     UsuarioBaneado(response.data);
 })
+
+client.on('Twitch.WatchStreak', (response) => {
+  console.debug(response.data);
+  TwitchWatchStreak(response.data);
+});
 
 //YOUTUBE
 
@@ -382,6 +388,40 @@ async function CheerChat(data){
     agregarMensaje(instancia, msgId, uid);
 }
 
+async function TwitchWatchStreak(data){
+	console.debug(data);
+	if(!mostrarRacha) return;
+
+	let usuario = data.userName;
+	let racha = data.watchStreak;
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+    const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
+	
+    mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	mensajeContenedorDiv.style.marginBottom = "5px";
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(usuario);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+	
+    usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `${usuario} lleva una racha de ${racha} visualizaciones en el canal`;
+
+  	agregarMensaje(instancia, null, null);
+}
+
 async function TwitchFollow(data) {
 	if(!showFollow) return;
 	console.debug(data);
@@ -398,7 +438,6 @@ async function TwitchFollow(data) {
 	 mensajeContenedorDiv.style.position = "relative";
 	mensajeContenedorDiv.style.height = "100%";
 	mensajeContenedorDiv.classList.add("rotar-color-cheers");
-	//mensajeContenedorDiv.style.background = "linear-gradient(90deg,rgba(175, 133, 237, 0.95) 0%, rgba(129, 80, 204, 1) 50%, rgba(119, 44, 232, 1) 100%)";
 	mensajeContenedorDiv.style.marginBottom = "5px"; // ← Separación entre rewards
 
 
