@@ -9,6 +9,7 @@ const lineSpacing = urlParameters.get("lineSpacing") || "1.7";
 // Fondo
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
 const opacity = urlParameters.get("opacidad") || 0.3;
+const colorFuente = urlParameters.get("colorFuente") || "#ffffff";
 
 // Visibilidad
 const showAvatar    = obtenerBooleanos("mostarAvatar", true);
@@ -105,6 +106,11 @@ client.on('Twitch.Follow', (response) => {
 	TwitchFollow(response.data);
 })
 
+client.on('Twitch.WatchStreak', (response) => {
+  console.debug(response.data);
+  TwitchWatchStreak(response.data);
+})
+
 client.on('Twitch.ChatCleared', (response) => {
 	LimpiarChat(response.data);
 })
@@ -117,10 +123,7 @@ client.on('Twitch.UserTimedOut', (response) => {
     UsuarioBaneado(response.data);
 })
 
-client.on('Twitch.WatchStreak', (response) => {
-  console.debug(response.data);
-  TwitchWatchStreak(response.data);
-});
+
 
 //YOUTUBE
 
@@ -204,7 +207,7 @@ async function MensajeChat(data) {
 	mensajeDiv.innerHTML = html_encode(mensaje);
 
 
-	if (usuario === "DesarolladorCheems") mensajeDiv.style.color = "#3BE477";
+	mensajeDiv.style.color = colorFuente;
 
 
 	if (showBadges) {
