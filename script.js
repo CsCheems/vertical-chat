@@ -70,7 +70,7 @@ document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
 document.body.style.fontFamily = fuenteLetra;
 document.body.style.fontSize = `${fontSize}px`;
 
-const listaMensajes = document.getElementById("listaMensajes");
+let listaMensajes = document.getElementById("listaMensajes");
 listaMensajes.classList.add("scrollNormal");
 
 document.documentElement.style.setProperty('--line-spacing', `${lineSpacing}em`);
