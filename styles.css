@@ -152,7 +152,7 @@ li {
 	background: linear-gradient(270deg, #772CE8, #A47DE1);
 	background-size: 600% 600%;
 	animation: colorBucle 6s ease infinite;
-	
+	box-shadow: 2px 2px 6px #000;
 }
 
 /* =========================
@@ -273,9 +273,69 @@ li {
 }
 
 #rewardContenedor {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	border-radius: var(--border-radius);
-	box-shadow: 2px 2px 6px #000;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 14px;
+  border-radius: var(--border-radius);
+
+  background: linear-gradient(270deg, #772CE8, #A47DE1);
+  box-shadow: 2px 2px 6px #000;
+  overflow: hidden;
+}
+
+/* contenido siempre arriba */
+#rewardContenedor > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* ===== EFECTO FUEGO (GENÉRICO) ===== */
+.fx-fire::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 100px;
+  z-index: 0;
+
+  background-image: url("https://usagif.com/wp-content/uploads/gifs/fire-102.gif");
+  background-repeat: repeat-x;
+  background-size: 180px auto;
+  background-position: bottom center;
+
+  opacity: 0.6;
+  filter: saturate(1.2) contrast(1.1);
+  pointer-events: none;
+
+  animation: fire-move 3.5s linear infinite;
+}
+
+
+.fx-fire::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+
+  box-shadow:
+    0 0 0 1px rgba(255,120,0,0.35) inset,
+    0 0 18px rgba(255,90,0,0.35);
+}
+
+.fx-fire.intense {
+  --fire-opacity: 0.3;
+  --fire-speed: 1.2s;
+}
+
+@keyframes fire-move {
+  from { background-position-x: 0%; }
+  to   { background-position-x: 100%; }
 }

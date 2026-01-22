@@ -8,7 +8,7 @@ const lineSpacing = urlParameters.get("lineSpacing") || "1.7";
 
 // Fondo
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
-const opacity = urlParameters.get("opacidad") || 0.3;
+const opacity = urlParameters.get("opacidad") || 0;
 const colorFuente = urlParameters.get("colorFuente") || "#ffffff";
 
 // Visibilidad
@@ -19,19 +19,19 @@ const showBadges    = obtenerBooleanos("mostrarInsigneas", true);
 const showImages    = obtenerBooleanos("mostrarImagenes", true);
 
 // Roles
-const rolUsuario = urlParameters.get("rolesId") || "4";
-const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true);
+const rolUsuario = urlParameters.get("rolesId") || "3";
+const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", false);
 
 // Auto-ocultar
 let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
 
 // Eventos
-const showRedeemMessages = obtenerBooleanos("mostrarCanjes", false);
-const destacado         = obtenerBooleanos("mostrarDestacado", false);
-const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", false);
-const showRaidMessage   = obtenerBooleanos("mostrarRaids", false);
-const showFollow = obtenerBooleanos("mostrarFollow", false);
-const mostrarRacha = obtenerBooleanos("mostrarRacha", false);
+const showRedeemMessages = obtenerBooleanos("mostrarCanjes", true);
+const destacado         = obtenerBooleanos("mostrarDestacado", true);
+const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
+const showRaidMessage   = obtenerBooleanos("mostrarRaids", true);
+const showFollow = obtenerBooleanos("mostrarFollow", true);
+const mostrarRacha = obtenerBooleanos("mostrarRacha", true);
 
 // Emotes / comandos
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
@@ -39,7 +39,7 @@ const excludeCommands = obtenerBooleanos("excluirComandos", true);
 
 // Fuente
 const fuenteLetra = urlParameters.get("fuenteLetra") || "consolas";
-let fontSize = urlParameters.get("tamanoFuente") || "24";
+let fontSize = urlParameters.get("tamanoFuente") || "25";
 
 // Usuarios ignorados
 const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
@@ -391,25 +391,41 @@ async function CheerChat(data){
     agregarMensaje(instancia, msgId, uid);
 }
 
-async function TwitchWatchStreak(data){
+async function TwitchWatchStreak(data) {
 	console.debug(data);
-	if(!mostrarRacha) return;
+	if (!mostrarRacha) return;
 
-	let usuario = data.userName;
-	let racha = data.watchStreak;
+	const usuario = data.userName;
+	const racha = data.watchStreak;
 
 	const plantilla = document.getElementById("plantillaReward");
 	const instancia = plantilla.content.cloneNode(true);
 
-    const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
 	const avatarDiv = instancia.querySelector("#avatar");
-    const usuarioDiv = instancia.querySelector("#reward");
-	
-    mensajeContenedorDiv.style.position = "relative";
-	mensajeContenedorDiv.style.height = "100%";
-	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	const usuarioDiv = instancia.querySelector("#reward");
+
+	// estilos base del card
 	mensajeContenedorDiv.style.marginBottom = "5px";
 
+	/* =========================
+		EFECTOS POR RACHA
+	========================= */
+
+	if (racha >= 50) {
+		applyEffects(mensajeContenedorDiv, {
+		fire: true,
+		intense: true
+		});
+	} else if (racha >= 25) {
+		applyEffects(mensajeContenedorDiv, {
+		fire: true
+		});
+	}
+
+	/* =========================
+		AVATAR
+	========================= */
 
 	if (showAvatar) {
 		const avatarURL = await obtenerAvatar(usuario);
@@ -418,12 +434,25 @@ async function TwitchWatchStreak(data){
 		avatar.classList.add("avatar");
 		avatarDiv.appendChild(avatar);
 	}
-	
-    usuarioDiv.className = "usuario";
-    usuarioDiv.innerHTML = `${usuario} lleva una racha de ${racha} visualizaciones en el canal`;
 
-  	agregarMensaje(instancia, null, null);
+	/* =========================
+		TEXTO
+	========================= */
+
+	usuarioDiv.className = "usuario";
+	usuarioDiv.innerHTML = `
+		<strong>${usuario}</strong>
+		lleva una racha de
+		<strong>${racha}</strong>!
+	`;
+
+	/* =========================
+		INSERTAR EN CHAT
+	========================= */
+
+	agregarMensaje(instancia, null, null);
 }
+
 
 async function TwitchFollow(data) {
 	if(!showFollow) return;
@@ -486,6 +515,26 @@ function UsuarioBaneado(data) {
 }
 
 //FUNCIONES HELPER
+
+function applyEffects(contenedor, effects = {}) {
+  if (!contenedor) return;
+
+  // limpia efectos previos
+  contenedor.classList.remove(
+    "fx-fire",
+    "intense"
+  );
+
+  // fuego
+  if (effects.fire) {
+    contenedor.classList.add("fx-fire");
+    if (effects.intense) {
+      contenedor.classList.add("intense");
+    }
+  }
+}
+
+
 function agregarEmotes(message){
     let text = html_encode(message.text);
     let emotes = message.emotes;
@@ -609,3 +658,25 @@ function setConnectionStatus(connected){
         statusContainer.style.opacity = 1;
     }
 }
+
+function testWatchStreak(valorRacha = null) {
+    // Si no pasas racha, elige una de las importantes al azar
+    const hitos = [3, 5, 7, 15, 25, 50, 100];
+    const rachaAleatoria = hitos[Math.floor(Math.random() * hitos.length)];
+    
+    const mockData = {
+        userName: "s3lioh",
+        watchStreak: valorRacha || rachaAleatoria,
+        // Añade aquí más campos si tu sistema los necesita
+    };
+
+    console.log(`%c Probando racha de: ${mockData.watchStreak} `, 'background: #ff4500; color: white; font-weight: bold;');
+    
+    // Llamamos a tu función original
+    TwitchWatchStreak(mockData);
+}
+
+// setTimeout(function (){
+// 	testWatchStreak(50);
+// }, 1000);
+
