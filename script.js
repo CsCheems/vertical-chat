@@ -194,7 +194,6 @@ async function MensajeChat(data) {
 	const time = `${horas}:${minutos}`;
 
 	if (showTimestamp) {
-		timeStampDiv.classList.add("timestamp");
 		timeStampDiv.innerText = time;
 	}
 
@@ -288,6 +287,7 @@ async function MensajeChat(data) {
 		const image = new Image();
 
 		image.onload = () => {
+			image.className ="productImage";
 			image.style.width = "100%";
 			image.style.borderRadius = "8px";
 			image.style.marginTop = "6px";
