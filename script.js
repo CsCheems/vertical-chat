@@ -344,7 +344,7 @@ async function RecompensaChat(data) {
 	// Contenido del mensaje
     usuarioDiv.style.fontFamily = fuenteLetra;
     usuarioDiv.style.fontSize ="28px";
-	usuarioDiv.innerHTML = `${usuario} ha canjeado ${titulo} <img id="channel_point" src="./icon/channel-point.png"/> ${costo}`;
+	usuarioDiv.innerHTML = `<strong>${usuario}</strong> ha canjeado <strong>${titulo}</strong> <img id="channel_point" src="./icon/channel-point.png"/> <strong>${costo}</strong>`;
 
 	agregarMensaje(instancia, rewardId, uid);
 	
@@ -386,7 +386,7 @@ async function CheerChat(data){
 	}
 	
     usuarioDiv.className = "usuario";
-    usuarioDiv.innerHTML = `${usuario} ha donado ${bits} <img id="cheers" src="${data.parts[0].imageUrl}"/>`;
+    usuarioDiv.innerHTML = `<strong>${usuario}</strong> ha donado <strong>${bits}</strong> <img id="cheers" src="${data.parts[0].imageUrl}"/>`;
 
     agregarMensaje(instancia, msgId, uid);
 }
@@ -482,7 +482,7 @@ async function TwitchFollow(data) {
 	}
 
 	usuarioDiv.className = "usuario";
-    usuarioDiv.innerHTML = `${usuario} ha comenzado a seguir el canal`;
+    usuarioDiv.innerHTML = `<strong>${usuario}</strong> ha comenzado a seguir el canal`;
 
 	agregarMensaje(instancia, null, uid);
 }
