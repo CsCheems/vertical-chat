@@ -344,3 +344,28 @@ li {
   from { background-position-x: 0%; }
   to   { background-position-x: 100%; }
 }
+
+/* ==== EMOTE GIGANTE ==== */
+
+#emoteGiganteContenedor{
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+
+	padding: 10px 14px;
+	border-radius: var(--border-radius);
+
+	background: linear-gradient(270deg, #772CE8, #A47DE1);
+	box-shadow: 2px 2px 6px #000;
+	overflow: hidden;
+}
+
+#emoteGiganteContenedor > * {
+	position: relative;
+  	z-index: 2;
+}
+
+#emoteGigante{
+	margin: auto;
+}

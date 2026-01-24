@@ -32,6 +32,7 @@ const showCheerMessages = obtenerBooleanos("mostrarMensajesBits", true);
 const showRaidMessage   = obtenerBooleanos("mostrarRaids", true);
 const showFollow = obtenerBooleanos("mostrarFollow", true);
 const mostrarRacha = obtenerBooleanos("mostrarRacha", true);
+const mostrarRaid = obtenerBooleanos("mostrarRaid", true);
 
 // Emotes / comandos
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
@@ -46,7 +47,7 @@ const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 
 // Streamerbot
 const StreamerbotPort    = urlParameters.get("portInput") || "8080";
-const StreamerbotAddress = urlParameters.get("hostInput") || "127.0.0.1";
+const StreamerbotAddress = urlParameters.get("hostInput") || "127.0.0.1"; //>🥚>🐣>🐥>🐔>🍗>🫃
 
 
 const minRole = 3;
@@ -106,6 +107,10 @@ client.on('Twitch.Follow', (response) => {
 	TwitchFollow(response.data);
 })
 
+client.on('Twitch.AutomaticRewardRedemption', (response) => {
+	EmoteGigantesco(response.data);
+})
+
 client.on('Twitch.WatchStreak', (response) => {
   console.debug(response.data);
   TwitchWatchStreak(response.data);
@@ -121,6 +126,10 @@ client.on('Twitch.UserBanned', (response) => {
 
 client.on('Twitch.UserTimedOut', (response) => {
     UsuarioBaneado(response.data);
+})
+
+client.on('Twitch.Raid', (response) => {
+	TwitchRaid(response.data);
 })
 
 
@@ -359,6 +368,7 @@ async function CheerChat(data){
     const msgId = data.message.msgId;
     const mensaje = data.text;
     const emotes = data.emotes;
+	
 
     if(data.message.message.startsWith("!"))
         return;
@@ -389,6 +399,45 @@ async function CheerChat(data){
     usuarioDiv.innerHTML = `<strong>${usuario}</strong> ha donado <strong>${bits}</strong> <img id="cheers" src="${data.parts[0].imageUrl}"/>`;
 
     agregarMensaje(instancia, msgId, uid);
+}
+
+async function TwitchRaid(data){
+	console.debug(data);
+	if(!mostrarRaid) return;
+	const raider = data.from_broadcaster_user_name;
+	const viewers = data.viewers;
+	const uid = data.from_broadcaster_user_id;
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+	const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+	const usuarioDiv = instancia.querySelector("#reward");
+
+	mensajeContenedorDiv.style.marginBottom = "5px";
+
+	mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(raider);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+	
+    usuarioDiv.className = "usuario";
+	if(viewers === 1){
+		usuarioDiv.innerHTML = `<strong>${raider}</strong> ha traido a <strong>${viewers}</strong> viewer al stream 👍`;
+	}else{
+		usuarioDiv.innerHTML = `<strong>${raider}</strong> ha traido a <strong>${viewers}</strong> viewers al stream 👍`;
+	}
+    
+
+    agregarMensaje(instancia, null, uid);
 }
 
 async function TwitchWatchStreak(data) {
@@ -470,7 +519,7 @@ async function TwitchFollow(data) {
 	 mensajeContenedorDiv.style.position = "relative";
 	mensajeContenedorDiv.style.height = "100%";
 	mensajeContenedorDiv.classList.add("rotar-color-cheers");
-	mensajeContenedorDiv.style.marginBottom = "5px"; // ← Separación entre rewards
+	mensajeContenedorDiv.style.marginBottom = "5px";
 
 
 	if (showAvatar) {
@@ -485,6 +534,51 @@ async function TwitchFollow(data) {
     usuarioDiv.innerHTML = `<strong>${usuario}</strong> ha comenzado a seguir el canal`;
 
 	agregarMensaje(instancia, null, uid);
+}
+
+async function EmoteGigantesco(data){
+	console.debug("GIGANTESCO: ", data);
+	const usuario = data.user_name;
+	const emoteGigantesco = data.gigantified_emote.imageUrl;
+	const uid = data.user_id;
+	const mensaje = data.user_input;
+	const msgId = data.id;
+	
+	const plantilla = document.getElementById("emoteGigantePlantilla");
+	const instancia = plantilla.content.cloneNode(true);
+
+    const mensajeContenedorDiv = instancia.querySelector("#emoteGiganteContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#user");
+	const emoteGigante = instancia.querySelector("#emoteGigante");
+
+	mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	mensajeContenedorDiv.style.marginBottom = "5px"; 
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(usuario);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+
+	usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `<strong>${usuario}</strong>`;
+
+	const emoteImg = new Image();
+	emoteImg.src = emoteGigantesco
+	emoteImg.style.height = "6em";
+
+	emoteImg.onload = function(){
+		emoteGigante.appendChild(emoteImg);
+	}
+
+	agregarMensaje(instancia, msgId, uid);
+
 }
 
 function LimpiarChat(data) {
