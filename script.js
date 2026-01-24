@@ -571,7 +571,7 @@ async function EmoteGigantesco(data){
 
 	const emoteImg = new Image();
 	emoteImg.src = emoteGigantesco
-	emoteImg.style.height = "6em";
+	emoteImg.style.height = "10em";
 
 	emoteImg.onload = function(){
 		emoteGigante.appendChild(emoteImg);
