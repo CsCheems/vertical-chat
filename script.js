@@ -482,7 +482,7 @@ async function TwitchFollow(data) {
 	}
 
 	usuarioDiv.className = "usuario";
-    usuarioDiv.innerHTML = `${usuario} ha comenzado a seguir el canal/>`;
+    usuarioDiv.innerHTML = `${usuario} ha comenzado a seguir el canal`;
 
 	agregarMensaje(instancia, null, uid);
 }

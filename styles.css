@@ -66,10 +66,6 @@ html {
 	padding: 10px;
 }
 
-/* =========================
-   MESSAGE LAYOUT (NUTTY STYLE)
-========================= */
-
 .mensaje-contenido {
 	display: flex;
 	flex-direction: column;
