@@ -4,7 +4,7 @@ const urlParameters = new URLSearchParams(querystring);
 
 // Animación y layout
 const animationSpeed = urlParameters.get("animationSpeed") || "0.1";
-const lineSpacing = urlParameters.get("lineSpacing") || "1.7";
+const lineSpacing = urlParameters.get("lineSpacing") || "1.25";
 
 // Fondo
 const colorFondo = urlParameters.get("fondoColor") || "#000000";
@@ -39,7 +39,7 @@ const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 
 // Fuente
-const fuenteLetra = urlParameters.get("fuenteLetra") || "consolas";
+const fuenteLetra = urlParameters.get("fuenteLetra") || "impact";
 let fontSize = urlParameters.get("tamanoFuente") || "25";
 
 // Usuarios ignorados
@@ -68,13 +68,21 @@ const hexToRgb = (hex) => {
 const { r, g, b } = hexToRgb(colorFondo);
 
 document.body.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${opacity})`;
-document.body.style.fontFamily = fuenteLetra;
+document.body.style.fontFamily = `
+  ${fuenteLetra},
+  system-ui,
+  -apple-system,
+  "Segoe UI",
+  Roboto,
+  Arial,
+  sans-serif
+`;
 document.body.style.fontSize = `${fontSize}px`;
 
 let listaMensajes = document.getElementById("listaMensajes");
 listaMensajes.classList.add("scrollNormal");
 
-document.documentElement.style.setProperty('--line-spacing', `${lineSpacing}em`);
+document.documentElement.style.setProperty('--line-spacing', `${lineSpacing}`);
 document.documentElement.style.setProperty('--animation-speed', `${animationSpeed}s`);
 
 //CLIENTE//
@@ -558,16 +566,16 @@ async function EmoteGigantesco(data){
 	mensajeContenedorDiv.style.marginBottom = "5px"; 
 
 
-	if (showAvatar) {
-		const avatarURL = await obtenerAvatar(usuario);
-		const avatar = new Image();
-		avatar.src = avatarURL;
-		avatar.classList.add("avatar");
-		avatarDiv.appendChild(avatar);
-	}
+	// if (showAvatar) {
+	// 	const avatarURL = await obtenerAvatar(usuario);
+	// 	const avatar = new Image();
+	// 	avatar.src = avatarURL;
+	// 	avatar.classList.add("avatar");
+	// 	avatarDiv.appendChild(avatar);
+	// }
 
-	usuarioDiv.className = "usuario";
-    usuarioDiv.innerHTML = `<strong>${usuario}</strong>`;
+	// usuarioDiv.className = "usuario";
+    // usuarioDiv.innerHTML = `<strong>${usuario}</strong>`;
 
 	const emoteImg = new Image();
 	emoteImg.src = emoteGigantesco
