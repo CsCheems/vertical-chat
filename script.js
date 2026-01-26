@@ -20,7 +20,7 @@ const showImages    = obtenerBooleanos("mostrarImagenes", true);
 
 // Roles
 const rolUsuario = urlParameters.get("rolesId") || "3";
-const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", false);
+const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true);
 
 // Auto-ocultar
 let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
@@ -35,7 +35,7 @@ const mostrarRacha = obtenerBooleanos("mostrarRacha", true);
 const mostrarRaid = obtenerBooleanos("mostrarRaid", true);
 
 // Emotes / comandos
-const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", false);
+const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 
 // Fuente

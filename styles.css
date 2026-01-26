@@ -75,7 +75,7 @@ html, body {
 .mensaje-contenido {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5em;
+	gap: 0.2em;
 	align-items: flex-start;
 }
 
@@ -108,10 +108,15 @@ html, body {
 }
 
 li {
+	
     list-style: none;
     max-height: 0;
-	margin: 10px 0px 0px 0px;
 	transition: all 1s ease-in-out;
+}
+
+li #rewardContenedor{
+	
+    margin: 10px 0 10px 0;
 }
 
 .slide-fade li {
