@@ -39,7 +39,7 @@ const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 
 // Fuente
-const fuenteLetra = urlParameters.get("fuenteLetra") || "impact";
+const fuenteLetra = urlParameters.get("fuenteLetra") || "consolas";
 let fontSize = urlParameters.get("tamanoFuente") || "25";
 
 // Usuarios ignorados
@@ -47,7 +47,7 @@ const ignoredUsers = urlParameters.get("usuariosIgnorados") || "";
 
 // Streamerbot
 const StreamerbotPort    = urlParameters.get("portInput") || "8080";
-const StreamerbotAddress = urlParameters.get("hostInput") || "127.0.0.1"; //>🥚>🐣>🐥>🐔>🍗>🫃
+const StreamerbotAddress = urlParameters.get("hostInput") || "127.0.0.1";
 
 
 const minRole = 3;
@@ -140,14 +140,20 @@ client.on('Twitch.Raid', (response) => {
 	TwitchRaid(response.data);
 })
 
-
-
-//YOUTUBE
-
-client.on('YouTube.Message', (response) => {
-	console.log(response);
-	MensajeYoutube(response.data);
+client.on('Twitch.Sub', (response) => {
+	TwitchSub(response.data);
 })
+
+client.on('Twitch.ReSub', (response) => {
+	TwitchReSub(response.data);
+})
+
+client.on('Twitch.GiftSub', (response) => {
+	TwitchGiftSub(response.data);
+})
+
+
+
 
 //MENSAJE DE CHAT//
 async function MensajeChat(data) {
@@ -543,6 +549,168 @@ async function TwitchFollow(data) {
 
 	agregarMensaje(instancia, null, uid);
 }
+
+async function TwitchSub(data){
+	console.debug(data);
+	const user = data.user.name;
+	const tier = data.sub_tier;
+	const isPrime = data.is_prime;
+	const msgId = data.messageId;
+	const uid = data.user.id;
+	let compMsg = ""; 
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+	const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
+
+	 mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	mensajeContenedorDiv.style.marginBottom = "5px";
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(user);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+
+	switch(tier){
+		case '1000':
+			if(isPrime) compMsg = ` <strong>prime</strong>`;
+			else compMsg = ` una sub <strong>nivel 1</strong>`;
+			break;
+		case '2000':
+			compMsg = ` una sub <strong>nivel 2</strong>`;
+			break;
+		case '3000': 
+			compMsg = ` una sub <strong>nivel 3</strong>`;
+			break;
+		default:
+			console.debug("Mismatch: ", tier);
+			break;
+	}
+
+	usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `<strong>${user}</strong> se ha suscrito al canal con ${compMsg}`;
+
+	agregarMensaje(instancia, msgId, uid);
+
+}
+
+async function TwitchReSub(data){
+	console.debug(data);
+	const user = data.user.name;
+	const tier = data.subTier;
+	const isPrime = data.isPrime;
+	const monthsSub = data.user.monthsSubscribed;
+	const mensaje = data.text;
+	const msgId = data.messageId;
+	const uid = data.user.id;
+	let compMsg = ""; 
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+	const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
+	const mensajeUsuarioDiv = instancia.querySelector("#mensaje");
+
+	mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	mensajeContenedorDiv.style.marginBottom = "5px";
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(user);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+
+	switch(tier){
+		case '1000':
+			if(isPrime) compMsg = ` <strong>prime</strong>`;
+			else compMsg = ` una sub <strong>nivel 1</strong>`;
+			break;
+		case '2000':
+			compMsg = ` una sub <strong>nivel 2</strong>`;
+			break;
+		case '3000': 
+			compMsg = ` una sub <strong>nivel 3</strong>`;
+			break;
+		default:
+			console.debug("Mismatch: ", tier);
+			break;
+	}
+
+	usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `<strong>${user}</strong> se ha suscrito al canal con ${compMsg}`;
+
+	mensajeUsuarioDiv.className = "mensajeReSub";
+	mensajeUsuarioDiv.innerHTML = mensaje;
+
+	agregarMensaje(instancia, msgId, uid);
+
+}
+
+async function TwitchGiftSub(data){
+	console.debug(data);
+	const user = data.user.name;
+	const recipient = data.recipient.name;
+	const tier = data.subTier;
+	const uid = data.user.id;
+	
+
+	const plantilla = document.getElementById("plantillaReward");
+	const instancia = plantilla.content.cloneNode(true);
+
+	const mensajeContenedorDiv = instancia.querySelector("#rewardContenedor");
+	const avatarDiv = instancia.querySelector("#avatar");
+    const usuarioDiv = instancia.querySelector("#reward");
+
+	mensajeContenedorDiv.style.position = "relative";
+	mensajeContenedorDiv.style.height = "100%";
+	mensajeContenedorDiv.classList.add("rotar-color-cheers");
+	mensajeContenedorDiv.style.marginBottom = "5px";
+
+
+	if (showAvatar) {
+		const avatarURL = await obtenerAvatar(user);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		avatarDiv.appendChild(avatar);
+	}
+
+	switch(tier){
+		case '1000':
+			compMsg = `<strong>nivel 1</strong>`;
+			break;
+		case '2000':
+			compMsg = `<strong>nivel 2</strong>`;
+			break;
+		case '3000': 
+			compMsg = `<strong>nivel 3</strong>`;
+			break;
+		default:
+			console.debug("Mismatch: ", tier);
+			break;
+	}
+
+	usuarioDiv.className = "usuario";
+    usuarioDiv.innerHTML = `<strong>${user}</strong> regalo una suscripción de nivel ${compMsg} a <strong>${recipient}</strong>`;
+
+	agregarMensaje(instancia, null, uid);
+} 
 
 async function EmoteGigantesco(data){
 	console.debug("GIGANTESCO: ", data);
