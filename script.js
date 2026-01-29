@@ -33,6 +33,9 @@ const showRaidMessage   = obtenerBooleanos("mostrarRaids", true);
 const showFollow = obtenerBooleanos("mostrarFollow", true);
 const mostrarRacha = obtenerBooleanos("mostrarRacha", true);
 const mostrarRaid = obtenerBooleanos("mostrarRaid", true);
+const mostrarSubs = obtenerBooleanos("mostrarSubs", true);
+const mostrarSubsRegaladas = obtenerBooleanos("mostrarSubsRegaladas", true);
+
 
 // Emotes / comandos
 const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
@@ -551,6 +554,7 @@ async function TwitchFollow(data) {
 }
 
 async function TwitchSub(data){
+	if(!mostrarSubs) return;
 	console.debug(data);
 	const user = data.user.name;
 	const tier = data.sub_tier;
@@ -604,6 +608,7 @@ async function TwitchSub(data){
 }
 
 async function TwitchReSub(data){
+	if(!mostrarSubs) return;
 	console.debug(data);
 	const user = data.user.name;
 	const tier = data.subTier;
@@ -663,13 +668,13 @@ async function TwitchReSub(data){
 }
 
 async function TwitchGiftSub(data){
+	if(!mostrarSubsRegaladas) return;
 	console.debug(data);
 	const user = data.user.name;
 	const recipient = data.recipient.name;
 	const tier = data.subTier;
 	const uid = data.user.id;
 	
-
 	const plantilla = document.getElementById("plantillaReward");
 	const instancia = plantilla.content.cloneNode(true);
 
@@ -681,7 +686,6 @@ async function TwitchGiftSub(data){
 	mensajeContenedorDiv.style.height = "100%";
 	mensajeContenedorDiv.classList.add("rotar-color-cheers");
 	mensajeContenedorDiv.style.marginBottom = "5px";
-
 
 	if (showAvatar) {
 		const avatarURL = await obtenerAvatar(user);
