@@ -1,0 +1,229 @@
+{
+  "app": {
+    "title": "Chat Vertical",
+    "subtitle": "Genera el URL con parámetros para tu widget (OBS Browser Source).",
+    "brandLabel": "CHAT CONFIG"
+  },
+  "base": {
+    "baseUrlLabel": "URL base del widget",
+    "baseUrlPlaceholder": "https://cscheems.github.io/Streamerbot-Chat-Widget/",
+    "defaultBaseUrl": "https://cscheems.github.io/Streamerbot-Chat-Widget/"
+  },
+  "sections": [
+    {
+      "title": "Apariencia",
+      "description": "Apariencia del chat, colores y tipografía.",
+      "fields": [
+        {
+            "type": "color",
+            "id": "fondoColor",
+            "label": "Color de fondo",
+            "param": "fondoColor",
+            "default": "#0C1633",
+            "variant": "swatch"
+        },
+        {
+            "type": "color",
+            "id": "colorFuente",
+            "label": "Color de fuente",
+            "param": "colorFuente",
+            "default": "#ffffff",
+            "variant": "swatch"
+        },
+        {
+            "type": "number",
+            "id": "opacidad",
+            "label": "Opacidad (0 - 1)",
+            "param": "opacidad",
+            "default": 0.75,
+            "min": 0,
+            "max": 1,
+            "step": 0.05
+        },
+        {
+            "type": "switch",
+            "id": "mostarAvatar",
+            "label": "Mostrar avatar",
+            "param": "mostarAvatar",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarTiempo",
+            "label": "Mostrar tiempo",
+            "param": "mostrarTiempo",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarUsuario",
+            "label": "Mostrar usuario",
+            "param": "mostrarUsuario",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostarInsigneas",
+            "label": "Mostrar insignias",
+            "param": "mostarInsigneas",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "fuenteLetra",
+            "label": "Fuente de letra",
+            "param": "fuenteLetra",
+            "default": "Arial",
+            "placeholder": "Arial, Open Sans, Consolas..."
+        },
+        {
+            "type": "number",
+            "id": "tamanoFuente",
+            "label": "Tamaño de fuente",
+            "param": "tamanoFuente",
+            "default": 20,
+            "min": 0,
+            "max": 42,
+            "step": 1
+        }
+      ]
+    },
+    {
+        "title": "Comportamiento",
+        "description": "Comportamiento general del chat.",
+        "fields": [
+        {
+            "type": "switch",
+            "id": "mostarImagenes",
+            "label": "Permitir imágenes",
+            "param": "mostarImagenes",
+            "default": false
+        },
+        {
+            "type": "select",
+            "id": "rolesId",
+            "label": "Roles permitidos",
+            "description": "Usuarios que pueden enviar imagenes",
+            "param": "rolesId",
+            "default": 0
+        },
+        {
+            "type": "switch",
+            "id": "mensajesAgrupados",
+            "label": "Mostrar mensajes agrupados",
+            "param": "mensajesAgrupados",
+            "default": false
+        },
+        {
+            "type": "number",
+            "id": "tiempoMs",
+            "label": "Ocultar mensajes después de (segundos)",
+            "param": "tiempoMs",
+            "default": 0,
+            "min": 0,
+            "max": 3600,
+            "step": 1
+        },
+        {
+            "type": "switch",
+            "id": "excluirComandos",
+            "label": "Excluir comandos",
+            "param": "excluirComandos",
+            "default": true
+        },
+        {
+            "type": "text",
+            "id": "usuariosIgnorados",
+            "label": "Usuarios ignorados",
+            "param": "usuariosIgnorados",
+            "default": "StreamElements, Streamlabs, Nightbot",
+            "placeholder": "Usuario1, Usuario2"
+        }
+      ]
+    },
+    {
+        "title": "Eventos de Twitch",
+        "description": "Eventos y mensajes especiales que se muestran.",
+        "fields": [
+        {
+            "type": "switch",
+            "id": "mostrarFollow",
+            "label": "Mostrar seguimiento",
+            "param": "mostrarFollow",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarCanjes",
+            "label": "Mostrar canjes de canal",
+            "param": "mostrarCanjes",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarDestacado",
+            "label": "Mostrar mensajes destacados",
+            "param": "mostrarDestacado",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarMensajesBits",
+            "label": "Mostrar bits",
+            "param": "mostrarMensajesBits",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarRaids",
+            "label": "Mostrar raids",
+            "param": "mostrarRaids",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarSubs",
+            "label": "Mostrar subs",
+            "param": "mostrarSubs",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarSubsRegaladas",
+            "label": "Mostrar subs regaladas",
+            "param": "mostrarSubsRegaladas",
+            "default": true
+        },
+        {
+            "type": "switch",
+            "id": "mostrarRacha",
+            "label": "Mostrar rachas",
+            "param": "mostrarRacha",
+            "default": true
+        }
+      ]
+    },
+    {
+        "title": "Streamerbot",
+        "description": "Configuración de conexión con Streamerbot.",
+        "fields": [
+        {
+            "type": "text",
+            "id": "hostInput",
+            "label": "Host",
+            "param": "hostInput",
+            "default": "127.0.0.1",
+            "placeholder": "127.0.0.1"
+        },
+        {
+            "type": "text",
+            "id": "portInput",
+            "label": "Puerto",
+            "param": "portInput",
+            "default": "8080",
+            "placeholder": "8080"
+        }
+      ]
+    }
+  ]
+}
