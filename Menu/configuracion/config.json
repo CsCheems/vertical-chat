@@ -6,8 +6,8 @@
   },
   "base": {
     "baseUrlLabel": "URL base del widget",
-    "baseUrlPlaceholder": "https://cscheems.github.io/Streamerbot-Chat-Widget/",
-    "defaultBaseUrl": "https://cscheems.github.io/Streamerbot-Chat-Widget/"
+    "baseUrlPlaceholder": "https://cscheems.github.io/vertical-chat/",
+    "defaultBaseUrl": "https://cscheems.github.io/vertical-chat/"
   },
   "sections": [
     {
