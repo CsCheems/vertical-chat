@@ -3,7 +3,7 @@ const querystring = window.location.search;
 const urlParameters = new URLSearchParams(querystring);
 
 // Animación y layout
-const animationSpeed = urlParameters.get("animationSpeed") || "0.1";
+const animationSpeed = urlParameters.get("animationSpeed") || "0.3";
 const lineSpacing = urlParameters.get("lineSpacing") || "1.25";
 
 // Fondo
