@@ -13,7 +13,7 @@ const colorFuente = urlParameters.get("colorFuente") || "#ffffff";
 
 // Visibilidad
 const showAvatar    = obtenerBooleanos("mostarAvatar", true);
-const showTimestamp = obtenerBooleanos("mostrarTiempo", true);
+const showTimestamp = obtenerBooleanos("mostrarTiempo", false);
 const showUsername  = obtenerBooleanos("mostrarUsuario", true);
 const showBadges    = obtenerBooleanos("mostrarInsigneas", true);
 const showImages    = obtenerBooleanos("mostrarImagenes", true);
@@ -180,7 +180,7 @@ async function MensajeChat(data) {
 	const instancia = plantilla.content.cloneNode(true);
 
 	const mensajeContenedorDiv = instancia.querySelector("#mensajeContenedor");
-	mensajeContenedorDiv.classList.add("bubble");
+	//mensajeContenedorDiv.classList.add("bubble");
 	const primerMensajeDiv = instancia.querySelector("#primerMensaje");
 	const respuestaContenedorDiv = instancia.querySelector("#respuesta");
 	const chatCompartidoDiv = instancia.querySelector("#chatCompartido");
