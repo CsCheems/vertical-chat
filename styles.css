@@ -115,7 +115,6 @@ li {
 }
 
 li #rewardContenedor{
-	
     margin: 10px 0 10px 0;
 }
 
@@ -215,6 +214,7 @@ li #rewardContenedor{
 ========================= */
 
 #timestamp {
+	display: none;
 	background: #adadad46;
 	border-radius: 1em;
 	font-size: 0.7em;
@@ -270,13 +270,64 @@ li #rewardContenedor{
 ========================= */
 
 #respuesta {
-	display: none;
-	overflow: hidden;
-	white-space: normal;
-	text-overflow: ellipsis;
-	font-size: 0.7em;
-	opacity: 0.5;                                                                               
+    display: none; 
+    font-size: 0.7em;
+    opacity: 0.5;
+    transform: translateX(17px);
+	z-index: -1;
 }
+
+.respuesta-curve {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.curve {
+    flex-shrink: 0;
+    width: 40px;
+    height: 75%;
+    border-top: 2px solid rgb(82, 82, 82);
+    border-left: 2px solid rgb(82, 82, 82);
+    border-top-left-radius: 10px;
+    margin-right: 8px;
+    margin-top: 0.6em; /* Adjust to align with the center of the avatar/text */
+}
+
+.replyContent {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+    color: #696969;
+    width: 100%;
+}
+
+/* Key Fix: Make the avatar container inline so text flows after it */
+#avatarRply {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.avatarRply {
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    object-fit: cover;
+    /* vertical-align helps align the image with the baseline of the name */
+    vertical-align: sub; 
+}
+
+#respuestaUsuario {
+    font-weight: bold;
+}
+
+#respMsg {
+    white-space: normal;
+}
+
 
 /* =========================
    REWARDS

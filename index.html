@@ -27,13 +27,19 @@
     <template id="plantillaMensaje">
         <div id="mensajeContenedor">
             <div class="mensaje-contenido">
-                <!-- Avatar -->
-                
-
-                <!-- Contenido del mensaje -->
                 <div id="primerMensaje">
                     <span>👋 Primer Mensaje en el Chat</span>
                 </div>
+                <span id="respuesta">
+                    <div class="respuesta-curve">
+                        <div class="curve"></div>
+                        <div class="replyContent">
+                            <div id="avatarRply"></div>
+                            <span id="respuestaUsuario">Name</span><span id="respuestaColon">:</span>
+                            <span id="respMsg">This is a very long message that will now wrap under the username and cut off after two lines with dots...</span>
+                        </div>
+                    </div>
+                </span>
                 <div class="texto-mensaje">
                     <div id="avatar"></div>
                     <div id="chatCompartido">
@@ -47,13 +53,9 @@
                         <br id="line-space">
                     </label>    
                 </div>
-                    <div id="respuesta">
-                        <span>
-                            💬 Respondiendo a
-                            <span id="respuestaUsuario"></span>:
-                            <span id="respMsg"></span>
-                        </span>
-                    </div>
+                <div id="respuesta">
+                    
+                </div>
                 <span id="mensaje"></span>
             </div>
         </div>

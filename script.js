@@ -20,7 +20,7 @@ const showImages    = obtenerBooleanos("mostrarImagenes", true);
 
 // Roles
 const rolUsuario = urlParameters.get("rolesId") || "3";
-const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true);
+const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", false);
 
 // Auto-ocultar
 let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
@@ -182,9 +182,11 @@ async function MensajeChat(data) {
 	const mensajeContenedorDiv = instancia.querySelector("#mensajeContenedor");
 	mensajeContenedorDiv.classList.add("bubble");
 	const primerMensajeDiv = instancia.querySelector("#primerMensaje");
+	const respuestaContenedorDiv = instancia.querySelector("#respuesta");
 	const chatCompartidoDiv = instancia.querySelector("#chatCompartido");
 	const chatCompartidoCanalDiv = instancia.querySelector("#chatCompartidoCanal");
 	const respuestaDiv = instancia.querySelector("#respuesta");
+	const replyAvatar = instancia.querySelector("#avatarRply");
 	const respuestaUsuarioDiv = instancia.querySelector("#respuestaUsuario");
 	const respMsgDiv = instancia.querySelector("#respMsg");
 	const userInfoDiv = instancia.querySelector("#user-info");
@@ -204,12 +206,19 @@ async function MensajeChat(data) {
 	}
 
 	if (esRespuesta && data.message.reply) {
+		respuestaContenedorDiv.classList.add("show");
         const replyUser = data.message.reply.userName;
         const replyMsg = data.message.reply.msgBody;
 
 		const maxChars = 40;
 
-        respuestaDiv.style.display = 'block';
+		const avatarURL = await obtenerAvatar(replyUser);
+		const avatar = new Image();
+		avatar.src = avatarURL;
+		avatar.classList.add("avatar");
+		replyAvatar.appendChild(avatar);
+
+        respuestaDiv.style.display = 'flex';
         respuestaUsuarioDiv.innerText = replyUser;
         respMsgDiv.innerText = truncarTexto(replyMsg, maxChars);
     }
@@ -220,6 +229,8 @@ async function MensajeChat(data) {
 	const time = `${horas}:${minutos}`;
 
 	if (showTimestamp) {
+		timeStampDiv.classList.add("show");
+		timeStampDiv.style.display = 'block';
 		timeStampDiv.innerText = time;
 	}
 
