@@ -20,7 +20,7 @@ const showImages    = obtenerBooleanos("mostrarImagenes", true);
 
 // Roles
 const rolUsuario = urlParameters.get("rolesId") || "3";
-const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", false);
+const mensajesAgrupados = obtenerBooleanos("mensajesAgrupados", true);
 
 // Auto-ocultar
 let ocultarDespuesDe = urlParameters.get("tiempoMs") || 0;
@@ -42,7 +42,7 @@ const showGiantEmotes = obtenerBooleanos("mostrarEmotesGigantes", true);
 const excludeCommands = obtenerBooleanos("excluirComandos", true);
 
 // Fuente
-const fuenteLetra = urlParameters.get("fuenteLetra") || "consolas";
+const fuenteLetra = urlParameters.get("fuenteLetra") || "Uni Sans CAPS Heavy";
 let fontSize = urlParameters.get("tamanoFuente") || "25";
 
 // Usuarios ignorados
